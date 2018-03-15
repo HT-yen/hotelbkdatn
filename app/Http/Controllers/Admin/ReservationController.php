@@ -9,6 +9,7 @@ use App\Model\Reservation;
 use App\Model\User;
 use App\Model\Guest;
 use App\Model\Room;
+use Illuminate\Support\Facades\Auth;
 use App\Model\Hotel;
 
 class ReservationController extends Controller
@@ -27,11 +28,21 @@ class ReservationController extends Controller
             'target',
             'target_id',
             'checkin_date',
-            'checkout_date'
+            'checkout_date',
+            'user_id'
         ];
-        $reservations = Reservation::search()
-                    ->select($columns)
-                    ->orderby('reservations.id', 'DESC')
+        $query = Reservation::search()
+                    ->select($columns);
+        if (Auth::user()->is_admin ==User::ROLE_HOTELIER) {
+            $with['room'] = function ($query) {
+                $query->select('id', 'hotel_id');
+            };
+            $with['room.hotel'] = function ($query) {
+                $query->select('id', 'user_id');
+            };
+            $query =$query->with($with)->where('user_id', Auth::user()->id);
+        }
+        $reservations = $query->orderby('reservations.id', 'DESC')
                     ->paginate(Reservation::ROW_LIMIT)
                     ->appends(['search' => request('search')]);
         return view('backend.bookings.index', compact('reservations'));

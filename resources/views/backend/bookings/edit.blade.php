@@ -129,7 +129,7 @@
                           @foreach(App\Model\Reservation::$adminAvailableStatuses as $status => $value)
                             <option value="{{$value}}" {{$reservation->status_label == $status ? 'selected' :''}}
                             >
-                              {{$status}}
+                              {{__($status)}}
                             </option>
                           @endforeach
                         </select>

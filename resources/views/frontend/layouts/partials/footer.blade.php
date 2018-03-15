@@ -5,7 +5,7 @@
     <div class="row">
       <div class="col-md-4 col-sm-4">
         <h4>{{ __('About us')}}</h4>
-        <p><a href="">{{ __('Home') }}</a><br></p>
+        <p><a href="/">{{ __('Home') }}</a><br></p>
         <p><a href="">{{ __('Introduce') }}</a><br></p>
         <p><a href="">{{ __('Contacts') }}</a><br></p>
         <p><a href="">{{ __('Provision')}}</a><br></p>
@@ -25,8 +25,8 @@
         <strong>{{ __('Star Hotel Co., Ltd.') }} </strong><br>
         {{ __('06 Block 03 St, Da Nang') }}<br>
         <a href="#">P: (123) 456-7890</a><br>
-        <a href="#">E: hotelteam@starhotel.vn</a><br>
-        <a href="#">W: www.starhotel.vn </a><br>
+        <a href="#">E: htyen@hotelbooking.vn</a><br>
+        <a href="#">W: www.hotelbooking.vn </a><br>
         </address>
       </div>
     </div>

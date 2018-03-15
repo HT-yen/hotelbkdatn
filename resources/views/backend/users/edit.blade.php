@@ -58,11 +58,22 @@
                 </div>
                 <div class="form-group col-md-6">
                   <label for="is_admin">{{ __('Is Admin') }}</label>
-                  @if (old('is_admin', $user->is_admin) == App\Model\User::ROLE_ADMIN)
-                    <input type="checkbox" name="is_admin" value="{{ App\Model\User::ROLE_ADMIN }}" checked>
-                  @else
-                    <input type="checkbox" name="is_admin" value="{{ App\Model\User::ROLE_ADMIN }}">
-                  @endif
+                  <select name="is_admin">
+                      <option value="{{App\Model\User::ROLE_ADMIN}}" {{App\Model\User::ROLE_ADMIN == $user->is_admin ? 'selected' :''}}
+                      >
+                      {{__('Admin')}}
+                      </option>
+
+                      <option value="{{App\Model\User::ROLE_HOTELIER}}" {{App\Model\User::ROLE_HOTELIER == $user->is_admin ? 'selected' :''}}
+                      >
+                      {{__('Hotelier')}}
+                      </option>
+
+                      <option value="{{App\Model\User::ROLE_USER}}" {{App\Model\User::ROLE_USER == $user->is_admin ? 'selected' :''}}
+                      >
+                      {{__('User')}}
+                      </option>
+                  </select>
                 </div>
               </div>
               <!-- /.box-body -->

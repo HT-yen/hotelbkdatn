@@ -8,7 +8,7 @@
     "Register": "Đăng ký",
     "Place": "Địa điểm",
     "Check-in": "Ngày nhận phòng",
-    "Checkout": "Ngày trà phòng",
+    "Checkout": "Ngày trả phòng",
     "Duration": "Số đêm",
     "Order By": "Sắp xếp theo",
     "Outstanding Places": "Địa điểm nổi bật",
@@ -443,7 +443,9 @@
     "Hotels management": "Quản lý khách sạn",
     "Belong to TYND Group": " Thuộc về Tập đoàn TYND Group",
     "List Booking Rooms": "Danh sách đơn đặt phòng",
-    "Detail": "Xem chi tiết"
+    "Detail": "Xem chi tiết",
+    "User is logging! Can't delete this user!": "Quản trị viện đang đăng nhập, không thể xóa",
+    "Can't change role admin when you are logging in": "Không thể thay đổi quyền admin khi bạn đang đăng nhập"
 
 
 }

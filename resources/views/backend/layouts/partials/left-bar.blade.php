@@ -14,7 +14,7 @@
     <!-- sidebar menu: : style can be found in sidebar.less -->
     <ul class="sidebar-menu" data-widget="tree">
       <li class="header">{{ Auth::user()->is_admin == 2 ? __('Adminstrator') : __('Hotelier')  }}</li>
-      @if (Auth::user()->is_admin == 2)
+      @if (Auth::user()->is_admin == App\Model\User::ROLE_ADMIN)
       <!-- index -->
       <li class="{{ isActiveRoute('admin.index') }}">
         <a href="/admin">

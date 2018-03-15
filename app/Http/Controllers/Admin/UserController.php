@@ -86,6 +86,10 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, $id)
     {
+        if ((Auth::user()->id == $id) && ($request->is_admin != User::ROLE_ADMIN)) {
+             flash(__('Can\'t change role admin when you are logging in'))->warning();
+             return redirect()->back()->withInput();
+        }
         $user = User::findOrFail($id);
 
         if ($user->update($request->all())) {
@@ -151,8 +155,11 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         if ($user->is_admin == User::ROLE_ADMIN) {
             $user->update(['is_admin' => User::ROLE_USER]);
+        } else if ($user->is_admin == User::ROLE_HOTELIER)
+        {
+            $user->update(['is_admin' => User::ROLE_ADMIN]);   
         } else {
-            $user->update(['is_admin' => User::ROLE_ADMIN]);
+            $user->update(['is_admin' => User::ROLE_HOTELIER]);
         }
         flash(__('Change role successful!'))->success();
         return redirect()->route('user.index');
