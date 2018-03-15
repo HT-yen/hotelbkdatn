@@ -34,7 +34,7 @@
                     <select class="form-control" name="place_id">
                       <option value="">Choose Place</option>
                       @foreach($places as $place)
-                        <option value="{{ $place->id }}">{{ $place->name }}</option>
+                        <option value="{{ $place->id }}" {{$place->id == old('place_id')? "selected": ""}}>{{ $place->name }}</option>
                       @endforeach
                     </select>
                     @if($errors->first('place_id'))
@@ -46,7 +46,7 @@
                     <select class="form-control" name="star">
                       <option value="">Star</option>
                       @for($i = App\Model\Hotel::STAR_MIN; $i <= App\Model\Hotel::STAR_MAX; $i++ )
-                        <option value="{{ $i }}">{{ $i }}</option>
+                        <option value="{{ $i }}" {{$i == old('star')? "selected": ""}}>{{ $i }}</option>
                       @endfor
                     </select>
                     @if($errors->first('star'))
@@ -67,7 +67,8 @@
                 <p><b>{{ __('Choose Services') }}</b></p>
                   @foreach($services as $service)
                     <div class="checkbox-inline">
-                      <label><input type="checkbox" name="services[]" onclick="" value="{{ $service->id }}">{{ $service->name }}</label>
+                      <label><input type="checkbox" name="services[]"  onclick="" value="{{ $service->id }}"
+                        {{(is_array(old('services')) && in_array($service->id, old('services')))? "checked": ""}}>{{ $service->name }}</label>
                     </div>
                   @endforeach
                 </div>
