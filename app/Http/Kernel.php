@@ -40,6 +40,14 @@ class Kernel extends HttpKernel
             'throttle:60,1',
             'bindings',
         ],
+
+        'admin' => [
+            \App\Http\Middleware\LanguageAdminSwitcher::class,
+        ],
+
+        'frontend' => [
+            \App\Http\Middleware\LanguageFrontendSwitcher::class,
+        ],
     ];
 
     /**
@@ -56,5 +64,11 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'adminLogin' => \App\Http\Middleware\AdminLoginMiddleware::class,
+        'adminstratorLogin' => \App\Http\Middleware\AdminstratorMiddleware::class,
+        'hotelierLogin' => \App\Http\Middleware\HotelierMiddleware::class,
+        'checkUser' => \App\Http\Middleware\CheckUser::class,
+        'admin.language' => \App\Http\Middleware\AdminLanguageSwitcher::class,
+        'frontend.language' => \App\Http\Middleware\FrontendLanguageSwitcher::class,
     ];
 }
