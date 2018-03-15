@@ -16,6 +16,7 @@
     <section class="content">
       <!-- Small boxes (Stat box) -->
       <div class="row">
+      @if (Auth::user()->is_admin == App\Model\User::ROLE_ADMIN)
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-aqua">
@@ -75,6 +76,8 @@
             <a href="{{ route('category.index') }}" class="small-box-footer">{{ __('More info') }} <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+      @endif
+        
          <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->

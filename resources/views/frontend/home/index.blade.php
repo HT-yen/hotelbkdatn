@@ -172,7 +172,7 @@
           @endif
             <div class="col-sm-3">
               <div class="second-place">
-                <img src="{{ (isset($place->image)) ? $place->image_url : asset(config('image.default_thumbnail')) }}" alt="topPlace" class="img-responsive"/>
+                <img src="{{ (isset($place->image)) ? $place->image_url : asset(config('image.default_thumbnail')) }}" alt="topPlace" style="display: inline-block;width: 100%;height: 150px" />
                 <div class="second-place-bottom"> 
                   <div class="pull-left">
                     <a href="{{ route('places.show', $place->slug) }}"><h5><strong>{{ $place->name }}</strong></h5></a>

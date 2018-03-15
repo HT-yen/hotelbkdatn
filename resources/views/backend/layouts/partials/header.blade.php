@@ -1,6 +1,6 @@
 <header class="main-header">
   <a href="{{ route('admin.index') }}" class="logo">
-    <span class="logo-lg"><b>{{__('Admin ')}}</b> {{__('Management')}}</span>
+    <span class="logo-lg">{{__('Management')}}</span>
   </a>
   <nav class="navbar navbar-static-top">
     <div class="btn-group cls-admin-language pull-right mr-10">

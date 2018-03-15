@@ -75,6 +75,8 @@
                           {{ method_field('PUT') }}
                           @if ($user->is_admin == App\Model\User::ROLE_ADMIN)
                             <button type="submit" class="btn btn-default btn-on btn-sm">{{ __('Admin') }}</button>
+                          @elseif ($user->is_admin == App\Model\User::ROLE_HOTELIER)
+                            <button type="submit" class="btn btn-default btn-off btn-sm">{{ __('Hotelier') }}</button>
                           @else
                             <button type="submit" class="btn btn-default btn-off btn-sm">{{ __('User') }}</button>
                           @endif

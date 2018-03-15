@@ -26,6 +26,7 @@ class UpdateUserRequest extends FormRequest
         return [
             'password' => 'nullable|min:3',
             'full_name' => 'required',
+            'is_admin' => 'required',
             'phone' => 'required|numeric',
         ];
     }
