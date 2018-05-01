@@ -87,7 +87,7 @@ class PlaceController extends Controller
      */
     public function hintPlaces(Request $request)
     {
-        $hintedPlaces = $request->key == "" ? Place::topPlaces() : Place::select(['name', 'slug'])->whereRaw("match(name) against ('+$request->key*' in boolean mode)")->limit(5)->get();
+        $hintedPlaces = $request->key == "" ? Place::topPlaces() : Place::select(['name', 'slug'])->whereRaw("match(name) against ('*$request->key*' in boolean mode)")->limit(5)->get();
         
         return view('frontend.layouts.partials.widgetAcResult', compact('hintedPlaces'));
     }
