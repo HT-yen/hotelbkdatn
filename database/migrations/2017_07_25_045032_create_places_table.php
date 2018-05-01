@@ -22,6 +22,7 @@ class CreatePlacesTable extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
+        DB::statement('ALTER TABLE places ADD FULLTEXT search(name)');
     }
 
     /**
@@ -31,6 +32,11 @@ class CreatePlacesTable extends Migration
      */
     public function down()
     {
+
+        Schema::table('places', function($table) {
+            $table->dropIndex('search');
+        });
+
         Schema::dropIfExists('places');
     }
 }
