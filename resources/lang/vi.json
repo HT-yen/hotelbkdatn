@@ -445,7 +445,9 @@
     "List Booking Rooms": "Danh sách đơn đặt phòng",
     "Detail": "Xem chi tiết",
     "User is logging! Can't delete this user!": "Quản trị viện đang đăng nhập, không thể xóa",
-    "Can't change role admin when you are logging in": "Không thể thay đổi quyền admin khi bạn đang đăng nhập"
-
+    "Can't change role admin when you are logging in": "Không thể thay đổi quyền admin khi bạn đang đăng nhập",
+    "Is paid?": "Đã thanh toán?",
+    "Done": "Đã hoàn thành",
+    "Not yet": "Chưa"    
 
 }

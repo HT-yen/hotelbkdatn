@@ -99,6 +99,20 @@ class Reservation extends Model
     ];
 
     /**
+     * This is a recommended way to declare event handlers
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($order) {
+            $order->payment()->delete();
+        });
+    }
+
+    /**
      * Booking room belongs to a Room.
      *
      * @return Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -139,5 +153,15 @@ class Reservation extends Model
     public function reservable()
     {
         return $this->morphTo('reservable', 'target', 'target_id');
+    }
+
+      /**
+     * Get payment for reservation
+     *
+     * @return array
+     */
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
     }
 }

@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('phone');
             $table->softDeletes();
             $table->boolean('is_active')->default(false);
-            $table->boolean('is_admin')->default(false);
+            $table->integer('is_admin')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

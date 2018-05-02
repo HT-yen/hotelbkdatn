@@ -1,5 +1,5 @@
 @extends('frontend.layouts.master')
-@section('title', __('User Profile'))
+@section('title', __('User Profile'))name
 @section('content')
   <section class ='user-profile'>
     
@@ -160,7 +160,8 @@
               <thead>
                 <tr align="center">
                   <th>{{ __('ID') }}</th>
-                  <th>{{ __('Status') }}</th>
+                  <th>{{ __('Checkout') }}</th> 
+                  <th>{{ __('Is paid?') }}</th>
                   <th>{{ __('Room Name') }}</th>
                   <th>{{ __('Check in') }}</th> 
                   <th>{{ __('Checkout') }}</th> 
@@ -172,6 +173,7 @@
                   <tr>
                     <td>{{$reservation->id}}</td>
                     <td>{{$reservation->status_label}}</td>
+                    <td>{{is_null($reservation->payment)? __('Not yet'): __('Done')}}</td>
                     <td>{{$reservation->room->name}}</td>
                     <td>{{$reservation->checkin_date}}</td>
                     <td>{{$reservation->checkout_date}}</td>

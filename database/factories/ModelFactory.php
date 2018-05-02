@@ -21,7 +21,7 @@ $factory->define(App\Model\User::class, function (Faker\Generator $faker) {
         'email' => $faker->unique()->safeEmail,
         'full_name' => $faker->name,
         'phone' => $faker->phoneNumber,
-        'is_admin' => $faker->boolean(),
+        'is_admin' => $faker->numberBetween($min = 0, $max = 3),
         'is_active' => $faker->boolean(),
     ];
 });
