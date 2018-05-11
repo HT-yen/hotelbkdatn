@@ -196,6 +196,9 @@ class Hotel extends Model
         static::deleting(function ($hotel) {
             $hotel->ratingComments()->delete();
             $hotel->hotelServices()->delete();
+            foreach ($hotel->rooms as $room) {
+                $room->reservations()->delete();
+            };
             $hotel->rooms()->delete();
             $hotel->images()->delete();
         });

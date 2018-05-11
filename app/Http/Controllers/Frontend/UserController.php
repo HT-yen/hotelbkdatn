@@ -51,7 +51,6 @@ class UserController extends Controller
             ['target_id', $id],
         ])
         ->orderby('id', 'DESC')->paginate(User::ROW_LIMIT);
-        // print_r($reservations[0]->payment);
         return view('frontend.users.show', compact('user', 'comments', 'reservations'));
     }
 

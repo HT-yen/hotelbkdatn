@@ -41,6 +41,7 @@
                     <th>{{__('Rooms Name')}}</th>
                     <th>{{__('Target')}}</th>
                     <th>{{__('Full Name')}}</th>
+                    <th>{{ __('Is paid?') }}</th>
                     <th>{{__('Check in')}}</th>
                     <th>{{__('Check out')}}</th>
                     <th>{{__('Status')}}</th>
@@ -53,7 +54,7 @@
                       <td>{{$reservation->id}}</td>
                       <td>
                         <a href="" id="id-room-detail">
-                          {{$reservation->room->name}}
+                          {{!is_null($reservation->room)? $reservation->room->name: ""}}
                         </a>
                       </td>
                       <td>{{$reservation->target}}</td>
@@ -66,6 +67,7 @@
                           {{$reservation->reservable->full_name}}
                         @endif
                       </td>
+                      <td>{{is_null($reservation->payment)? __('Not yet'): __('Done')}}</td>
                       <td>{{$reservation->checkin_date}}</td>
                       <td>{{$reservation->checkout_date}}</td>
                       <td>{{$reservation->status_label}}</td>
