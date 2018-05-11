@@ -98,14 +98,6 @@ $factory->define(App\Model\News::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Model\StaticPage::class, function (Faker\Generator $faker) {
-
-    return [
-        'title' => $faker->sentence,
-        'content' => $faker->text,
-    ];
-});
-
 
 $factory->define(App\Model\Feedback::class, function (Faker\Generator $faker) {
 

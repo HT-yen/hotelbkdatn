@@ -23,7 +23,6 @@ class DatabaseSeeder extends Seeder
         $this->call(FeedbacksTableSeeder::class);
         $this->call(RatingCommentTableSeeder::class);
         $this->call(HotelServicesTableSeeder::class);
-        $this->call(StaticPagesTableSeeder::class);
         $this->call(ImagesTableSeeder::class);
     }
 }
