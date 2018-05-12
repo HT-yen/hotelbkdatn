@@ -174,7 +174,7 @@
                     <td>{{$reservation->id}}</td>
                     <td>{{$reservation->status_label}}</td>
                     <td>{{is_null($reservation->payment)? __('Not yet'): __('Done')}}</td>
-                    <td>{{$reservation->room->name}}</td>
+                    <td>{{!is_null($reservation->room)? $reservation->room->name: ""}}</td>
                     <td>{{$reservation->checkin_date}}</td>
                     <td>{{$reservation->checkout_date}}</td>
                     <td>

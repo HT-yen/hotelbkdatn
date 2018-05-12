@@ -144,8 +144,8 @@
               <small id="js-note-request" class="text-danger" hidden>{{ __("Special requests are subject to availability and may incur charges. For further details, you can contact the property directly.") }}</small>
             </div>
             <div class="col-md-8 nopadding cls-mb-50">
-              <button id="submit" class="btn btn-primary pull-right">{{ __('Submit') }} </button>
-            </div>
+              <button id="submit-payment-online" class="btn btn-warning pull-left">{{ __('Payment paypal online ') }} </button>
+              <button id="submit" class="btn btn-primary pull-right">{{ __('Payment when come hotel') }} </button>
           </div>
         </div>
       </div>

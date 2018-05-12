@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Room;
 use App\Model\Hotel;
+use App\Model\User;
 use App\Model\Image;
 use App\Http\Requests\Backend\UpdateRoomRequest;
 use App\Http\Requests\Backend\CreateRoomRequest;
+use Illuminate\Support\Facades\Auth;
 
 class RoomController extends Controller
 {
@@ -31,10 +33,16 @@ class RoomController extends Controller
             'max_guest',
             'hotel_id'
         ];
-        $rooms = Room::search()
+        $query = Room::search()
             ->select($columns)
             ->with(['images'])
-            ->where('hotel_id', $hotel->id)
+            ->where('hotel_id', $hotel->id);
+        if (Auth::user()->is_admin ==User::ROLE_HOTELIER) {
+            $query = $query->whereHas('hotel', function ($query) {
+                $query->where('user_id', Auth::user()->id);
+            });
+        }
+        $rooms = $query
             ->orderBy('id', 'DESC')
             ->paginate(Room::ROW_LIMIT)
             ->appends(['search' => request('search')]);
@@ -61,7 +69,13 @@ class RoomController extends Controller
             'max_guest',
             'hotel_id'
         ];
-        $room = Room::select($columns)->with('images')->findOrFail($id);
+        $query = Room::select($columns)->with('images');
+        if (Auth::user()->is_admin ==User::ROLE_HOTELIER) {
+            $query = $query->whereHas('hotel', function ($query) {
+                $query->where('user_id', Auth::user()->id);
+            });
+        }
+        $room = $query->findOrFail($id);
 
         return view('backend.rooms.show', compact('room', 'hotel'));
     }
