@@ -450,6 +450,11 @@
     "Done": "Đã hoàn thành",
     "Not yet": "Chưa",
     "No": "Không",
-    "Yes": "Có"
+    "Yes": "Có",
+    "Continue": "Tiếp tục",
+    "Payment by paypal": "Thanh toán bằng paypal",
+    "Are you sure you want to pay by paypal?": "Bạn có chắc muốn thanh toán bằng paypal",
+    "Confirm payment!": "Xác nhận thanh toán"
+
 
 }

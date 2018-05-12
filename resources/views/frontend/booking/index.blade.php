@@ -14,6 +14,8 @@
   @if (session('msg'))
     <div id="msg-booking" hidden="">{{ session('msg') }}</div>
     @include('frontend.booking.modal')
+    @include('frontend.payments.modal-payment-online')
+
   @endif
     <div class="container">
       <div class="row">
@@ -144,7 +146,8 @@
               <small id="js-note-request" class="text-danger" hidden>{{ __("Special requests are subject to availability and may incur charges. For further details, you can contact the property directly.") }}</small>
             </div>
             <div class="col-md-8 nopadding cls-mb-50">
-              <button id="submit-payment-online" class="btn btn-warning pull-left">{{ __('Payment paypal online ') }} </button>
+              <button id="submit-payment-online" class="btn btn-warning pull-left" data-original-title="{{ __('Payment by paypal') }}" data-toggle="tooltip"  data-title="{{ __('Confirm payment!') }}"
+                data-confirm="{{ __('Are you sure you want to pay by paypal?') }}">{{ __('Payment paypal online ') }} </button>
               <button id="submit" class="btn btn-primary pull-right">{{ __('Payment when come hotel') }} </button>
           </div>
         </div>

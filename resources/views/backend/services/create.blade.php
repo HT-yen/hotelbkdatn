@@ -9,6 +9,7 @@
       <h1 class="text-center text-success">
         {{ __("Add service") }}
       </h1>
+      @include('flash::message')
       <div class="row margin-center">
         <!-- left column -->
         <div class="col-md-12">

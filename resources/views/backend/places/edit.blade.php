@@ -8,6 +8,7 @@
       <h1 class="title-page text-success">
         {{ __('Update place') }}
       </h1>
+      @include('flash::message')
       <div class="row margin-center">
         <div class="col-md-12">
           <div class="box box-primary">
