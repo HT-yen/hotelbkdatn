@@ -448,6 +448,8 @@
     "Can't change role admin when you are logging in": "Không thể thay đổi quyền admin khi bạn đang đăng nhập",
     "Is paid?": "Đã thanh toán?",
     "Done": "Đã hoàn thành",
-    "Not yet": "Chưa"    
+    "Not yet": "Chưa",
+    "No": "Không",
+    "Yes": "Có"
 
 }

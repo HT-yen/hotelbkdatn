@@ -70,9 +70,11 @@
         <h5>{{ __('Max guest: ') . $room->max_guest }}</h5>
       </div>
       <div class="box-footer">
+        @if (Auth::user()->is_admin == App\Model\User::ROLE_HOTELIER)
         <a class="btn btn-primary btn-custom pull-right" href="{{ route('room.edit', [$hotel->id, $room->id]) }}">
           {{ __('Edit room') }}
         </a>
+        @endif
         <a class="btn btn-default btn-custom pull-right" href="{{ URL::previous() }}">
           {{ __('Back') }}
         </a>

@@ -47,7 +47,8 @@
                     <td>{{ $ratingComment->total_rating }}</td> 
                     <td>{{ $ratingComment->created_at }}</td> 
                     <td align="center">
-                      <form class="delete-item" method="POST" action="{{ route('comment.destroy', $ratingComment->id) }}">
+                      @if (Auth::user()->is_admin == App\Model\User::ROLE_ADMIN)
+                       <form class="delete-item" method="POST" action="{{ route('comment.destroy', $ratingComment->id) }}">
                         {!! csrf_field() !!}
                         {{ method_field('DELETE') }}
                         <button type="submit" class="btn-custom-option btn btn-delete-item fa fa-trash-o"  
@@ -55,6 +56,10 @@
                         data-confirm="{{ __('Are you sure you want to delete?') }}">
                         </button>
                       </form>
+                      @else
+                        {{ __('No') }}
+                      @endif
+
                     </td>
                   </tr>
                 @endforeach

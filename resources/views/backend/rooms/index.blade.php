@@ -40,12 +40,14 @@
                   </form>
                 </div>
                 <!-- end search -->
+                @if (Auth::user()->is_admin == App\Model\User::ROLE_HOTELIER)
                 <div class="contain-btn pull-right">
-                  <a href="{{ route('room.create', $hotel->id) }}" class="btn btn-primary" id="btn-add-room">
+                  <a href="{{ route('room.create', $hotel->id) }}" class="btn btn-primary" id="btn-add-room" {{Auth::user()->is_admin == App\Model\User::ROLE_ADMIN? "disabled": ""}}>
                     <span class="fa fa-plus-circle" aria-hidden="true"></span>
                     {{ __('Add Room') }}
                   </a> 
                 </div>
+                @endif
               </div>
                @include('backend.layouts.partials.modal')
                <table id="table-contain" class="table table-bordered table-striped
@@ -81,6 +83,7 @@
                   <td class="text-center">{{ $room->max_guest }}</td>
                   <td class="text-center col-action">
                     <div class="btn-option text-center">
+                      @if (Auth::user()->is_admin == App\Model\User::ROLE_HOTELIER)
                       <a href="{{ route('room.edit', [$hotel->id, $room->id]) }}" class="btn-edit fa fa-pencil-square-o btn-custom-option pull-left">
                         <i class="" aria-hidden="true"></i>
                       </a>
@@ -90,9 +93,12 @@
                         <button class=" btn-custom-option btn btn-delete-item fa fa-trash-o"
                           data-title="{{ __('Confirm deletion!') }}"
                           data-confirm="{{ __('Are you sure you want to delete?') }}" 
-                          type="submit" >
+                          type="submit">
                         </button>
                       </form> 
+                      @else
+                        {{ __('No') }}
+                      @endif
                     </div>
                   </td>
                 </tr>
@@ -102,12 +108,14 @@
                <div class="cls-search-not-found text-center" hidden="">
                 {{__('Data Not Found')}}
               </div>
+              @if (Auth::user()->is_admin == App\Model\User::ROLE_HOTELIER)
               <div class="contain-btn second pull-right">
                 <a href="{{ route('room.create', $hotel->id) }}" class="btn btn-primary">
                   <span class="fa fa-plus-circle" aria-hidden="true"></span>
                   {{ __('Add Room') }}
                 </a> 
               </div>
+              @endif
             {{ $rooms->render() }}
             </div>
             <!-- /.box-body -->

@@ -53,7 +53,7 @@
                     <tr>
                       <td>{{$reservation->id}}</td>
                       <td>
-                        <a href="" id="id-room-detail">
+                        <a id="id-room-detail">
                           {{!is_null($reservation->room)? $reservation->room->name: ""}}
                         </a>
                       </td>
@@ -72,6 +72,7 @@
                       <td>{{$reservation->checkout_date}}</td>
                       <td>{{$reservation->status_label}}</td>
                       <td align="center">
+                        @if (Auth::user()->is_admin == App\Model\User::ROLE_HOTELIER)
                         <div class="text-center">
                           <a href="{{ route('reservation.show', $reservation->id) }}"
                             data-original-title="{{ __('Detail') }}" data-toggle="tooltip"
@@ -91,6 +92,9 @@
                             </button>
                           </form>
                         </div>
+                        @else
+                        {{ __('No') }}
+                        @endif
                       </td>
                     </tr>
                   @endforeach

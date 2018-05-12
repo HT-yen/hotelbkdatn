@@ -30,12 +30,14 @@
                     <button type="submit" class="btn btn-primary btn-search"><i class="glyphicon glyphicon-search"></i></button>
                   </form>
                 </div>
+                @if (Auth::user()->is_admin == App\Model\User::ROLE_HOTELIER)
                 <div class="contain-btn pull-right">
                   <a href="{{ route('hotel.create') }}" class="btn btn-primary">
                     <span class="fa fa-plus-circle" aria-hidden="true"></span>
                     {{ __('Add hotel') }}
                   </a> 
                 </div>
+                @endif
               </div>
             </div>
 
@@ -72,9 +74,11 @@
                     <td>{{ $hotel->created_at }}</td>
                     <td class="text-center col-action">
                       <div class="btn-option text-center">
+                        @if (Auth::user()->is_admin == App\Model\User::ROLE_HOTELIER)
                         <a class="btn-edit fa fa-pencil-square-o btn-custom-option pull-left" href="{{ route('hotel.edit', $hotel->id) }}">
                           <i aria-hidden="true"></i>
                         </a>
+                        @endif
                         <form class="inline" method="POST" action="{{ route('hotel.destroy', $hotel->id) }}">
                           {!! csrf_field() !!}
                           {{ method_field('DELETE') }}
@@ -92,12 +96,14 @@
               <div class="cls-search-not-found text-center" hidden="">
                 {{__('Data Not Found')}}
               </div>
+              @if (Auth::user()->is_admin == App\Model\User::ROLE_HOTELIER)
               <div class="contain-btn second">
                 <a class="btn btn-primary" href="{{ route('hotel.create')}}">
                   <span class="fa fa-plus-circle"></span>
                   {{ __('Add hotel') }}
                 </a>
               </div>
+              @endif
             {!! $hotels->render() !!}
           </div>
          <!-- /.box-body -->
