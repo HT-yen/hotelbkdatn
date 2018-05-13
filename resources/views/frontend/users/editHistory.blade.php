@@ -97,7 +97,20 @@
                   </div>
                 </div>
               </div>
+              <div class="form-group">
+                <label class="control-label col-md-3">{{__('Is paid?')}}</label>
+                <div class="col-md-8">
+                  <div class="form-control">
+                    <strong">
+                       <i class="glyphicon glyphicon-exclamation-sign text-primary"></i>
+                       {{ !is_null($reservation->payment)? __('Done paid online'): __('Unpaid online') }}
+                    </strong> 
+                  </div>
+                </div>
+              </div>
+              
             </div>
+
             <div class ="panel-footer clearfix cls-register">
               @if($reservation->status_label == __('Pending'))
                 <form method="POST" action="{{ route('user.cancelBooking', [$reservation->reservable->id, $reservation->id]) }}">

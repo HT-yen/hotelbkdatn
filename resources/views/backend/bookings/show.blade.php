@@ -123,6 +123,12 @@
                     <td>
                       {{$reservation->status_label}}
                     </td>
+                    <td>
+                      <strong>
+                        <i class="glyphicon glyphicon-exclamation-sign text-primary"></i>
+                        {{ !is_null($reservation->payment)? __('Done paid online'): __('Unpaid online') }}
+                      </strong> 
+                    </td>
                   </tr>
                 </tbody>
               </table>
