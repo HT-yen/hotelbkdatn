@@ -462,6 +462,8 @@
     "Paypal account": "Tài toàn paypal",
     "Payment failure! Check your paypal account!": "Thanh toán thất bại! Kiểm tra tài khoản paypal của bạn!",
     "Payment and booking success! Thank you!": "Thanh toán và đặt phòng thành công! Cám ơn!",
-    "Payment failure! Sorry": "Thanh toán thất bại! Xin lỗi"
+    "Payment failure! Sorry": "Thanh toán thất bại! Xin lỗi",
+    "Done paid online": "Đã thanh toán online",
+    "Unpaid online": "Chưa thanh toán online"
 
 }

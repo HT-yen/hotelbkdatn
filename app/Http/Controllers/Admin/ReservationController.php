@@ -33,9 +33,6 @@ class ReservationController extends Controller
         ];
         $query = Reservation::search()
                     ->select($columns);
-        $with['payment'] = function ($query) {
-            $query->select('id');
-        };
         $with['room'] = function ($query) {
             $query->select('id', 'name', 'hotel_id');
         };
