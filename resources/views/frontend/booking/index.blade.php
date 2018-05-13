@@ -14,9 +14,8 @@
   @if (session('msg'))
     <div id="msg-booking" hidden="">{{ session('msg') }}</div>
     @include('frontend.booking.modal')
-    @include('frontend.payments.modal-payment-online')
-
   @endif
+  @include('frontend.payments.modal')
     <div class="container">
       <div class="row">
         <div class="col-md-1"></div>
@@ -131,7 +130,7 @@
                   <p>{{ __('Name: :name', ['name' => $room->name]) }}</p>
                   <p>{{ __('Size: :size', ['size' => $room->size]) }}</p>
                   <p>{{ __('Max guest: :max_guest', ['max_guest' => $room->max_guest]) }}</p>
-                  <p id="js-price-room">{{ __('Price: :price', ['price' => $room->price]) }}</p>
+                  <input type="numberic" name="price_per_night" id="js-price-room" value="{{ __('Price: :price', ['price' => $room->price]) }}" readonly>
                   <small class="text-danger">{{ __('(Has :emptyRooms empty rooms)', ['emptyRooms' => $emptyRooms]) }}</small>
                 </div>   
               </div>
@@ -147,8 +146,9 @@
             </div>
             <div class="col-md-8 nopadding cls-mb-50">
               <button id="submit-payment-online" class="btn btn-warning pull-left" data-original-title="{{ __('Payment by paypal') }}" data-toggle="tooltip"  data-title="{{ __('Confirm payment!') }}"
-                data-confirm="{{ __('Are you sure you want to pay by paypal?') }}">{{ __('Payment paypal online ') }} </button>
+                data-confirm="{{ __('Are you sure you want to pay by paypal?') }}">{{ __('Payment paypal online') }} </button>
               <button id="submit" class="btn btn-primary pull-right">{{ __('Payment when come hotel') }} </button>
+              </div>
           </div>
         </div>
       </div>

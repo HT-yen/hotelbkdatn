@@ -18,8 +18,6 @@ class CreatePaymentsTable extends Migration
             $table->integer('reservation_id')->unsigned();
             $table->string('transaction_id');
             $table->double('payment_gross')->unsigned();
-            $table->timestamp('payment_at');
-            $table->string('payer_email');
             $table->timestamps();
             $table->foreign('reservation_id')->references('id')->on('reservations');
             $table->softDeletes();

@@ -20,7 +20,7 @@ class Payment extends Model
      * @var array $fillable
      */
     protected $fillable = [
-        'id', 'reservation_id', 'transaction_id', 'star', 'payment_gross', 'payment_at', 'payer_email'
+        'id', 'reservation_id', 'transaction_id', 'payment_gross'
     ];
 
     /**

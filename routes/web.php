@@ -37,6 +37,8 @@ Route::group(['middleware' => 'frontend.language', 'namespace'=>'Frontend'],
         Route::resource('/news', 'NewsController', ['as' => 'frontend']);
         Route::get('/hint/places', 'PlaceController@hintPlaces')->name('places.hintPlaces');
         Route::get('/categories/{slug}/news', 'CategoryController@show')->name('categories.news');
+        Route::get('/payment/status', 'ReservationController@getPaymentStatus')->name('payment.status');
+
 });
 
 Route::group(['namespace'=>'Admin', 'prefix'=>'admin', 'middleware'=>['adminLogin', 'admin.language']], function() {

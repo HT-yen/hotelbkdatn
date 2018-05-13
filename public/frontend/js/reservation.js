@@ -23,10 +23,12 @@ $(document).ready(function() {
         var body = '<i>' + $(this).attr('data-confirm') + '</i>';
         $('#title-content').html(title);
         $('#body-content').html(body);
-        $('#confirm').modal('show');
+        $('#confirm-payment').modal('show');
         $('#continue-payment-online-btn').one('click', function(){
-            form.submit();
-            $('#confirm').modal('hide');
+            $('#booking-form').attr("action", $('#booking-form').attr("action")+ "?payment=online");
+            
+            $('#booking-form').submit();
+            $('#confirm-payment').modal('hide');
         })
     });
 

@@ -454,7 +454,14 @@
     "Continue": "Tiếp tục",
     "Payment by paypal": "Thanh toán bằng paypal",
     "Are you sure you want to pay by paypal?": "Bạn có chắc muốn thanh toán bằng paypal",
-    "Confirm payment!": "Xác nhận thanh toán"
-
+    "Confirm payment!": "Xác nhận thanh toán",
+    "Enter your paypal account ID": "Nhập ID tài khoản paypal của bạn",
+    "Payment paypal online": "Thanh toán paypal online",
+    "Payment when come hotel": "Thanh toán khi đến khách sạn",
+    "Only enter when you want payment online by paypal": "Chỉ nhập khi bạn muốn thanh toán online bằng paypal",
+    "Paypal account": "Tài toàn paypal",
+    "Payment failure! Check your paypal account!": "Thanh toán thất bại! Kiểm tra tài khoản paypal của bạn!",
+    "Payment and booking success! Thank you!": "Thanh toán và đặt phòng thành công! Cám ơn!",
+    "Payment failure! Sorry": "Thanh toán thất bại! Xin lỗi"
 
 }
