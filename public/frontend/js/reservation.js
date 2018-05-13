@@ -16,6 +16,25 @@ function loadTotalPrice() {
     $('#js-price-total').text('$ ' + price*quantity*duration);
 }
 $(document).ready(function() {
+    $('#submit-payment-online').bind('click',function(e){
+        e.preventDefault();
+        var form = $(this.form);
+        var title = $(this).attr('data-title');
+        var body = '<i>' + $(this).attr('data-confirm') + '</i>';
+        $('#title-content').html(title);
+        $('#body-content').html(body);
+        $('#confirm-payment').modal('show');
+        $('#continue-payment-online-btn').one('click', function(){
+            $('#booking-form').attr("action", $('#booking-form').attr("action")+ "?payment=online");
+            
+            $('#booking-form').submit();
+            $('#confirm-payment').modal('hide');
+        })
+    });
+
+    $('#submit').on('click',function(){
+        $('#booking-form').submit();
+    });
     $('#submit').on('click',function(){
         $('#booking-form').submit();
     });

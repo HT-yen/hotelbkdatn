@@ -22,13 +22,6 @@
         </a>
       </li>
     
-      <!--  introduction -->
-      <li class="{{ areActiveRoute(['static-page.index', 'static-page.edit']) }}">
-        <a href="{{ route('static-page.index') }}">
-          <i class="fa fa-table"></i> <span>{{ __('Static Pages') }}</span>
-        </a>
-      </li>
-
       <!--  news -->
       <li class="{{ areActiveRoute(['news.index','news.create', 'news.edit']) }}">
         <a href="{{ route('news.index') }}">

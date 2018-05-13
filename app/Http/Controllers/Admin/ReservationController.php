@@ -33,14 +33,18 @@ class ReservationController extends Controller
         ];
         $query = Reservation::search()
                     ->select($columns);
+        $with['payment'] = function ($query) {
+            $query->select('id');
+        };
+        $with['room'] = function ($query) {
+            $query->select('id', 'name', 'hotel_id');
+        };
+        $with['room.hotel'] = function ($query) {
+            $query->select('id', 'user_id');
+        };
+        $query =$query->with($with);
         if (Auth::user()->is_admin ==User::ROLE_HOTELIER) {
-            $with['room'] = function ($query) {
-                $query->select('id', 'hotel_id');
-            };
-            $with['room.hotel'] = function ($query) {
-                $query->select('id', 'user_id');
-            };
-            $query =$query->with($with)->where('user_id', Auth::user()->id);
+            $query =$query->where('user_id', Auth::user()->id);
         }
         $reservations = $query->orderby('reservations.id', 'DESC')
                     ->paginate(Reservation::ROW_LIMIT)

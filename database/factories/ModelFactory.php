@@ -21,7 +21,7 @@ $factory->define(App\Model\User::class, function (Faker\Generator $faker) {
         'email' => $faker->unique()->safeEmail,
         'full_name' => $faker->name,
         'phone' => $faker->phoneNumber,
-        'is_admin' => $faker->boolean(),
+        'is_admin' => $faker->numberBetween($min = 0, $max = 3),
         'is_active' => $faker->boolean(),
     ];
 });
@@ -91,14 +91,6 @@ $factory->define(App\Model\Category::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\Model\News::class, function (Faker\Generator $faker) {
-
-    return [
-        'title' => $faker->sentence,
-        'content' => $faker->text,
-    ];
-});
-
-$factory->define(App\Model\StaticPage::class, function (Faker\Generator $faker) {
 
     return [
         'title' => $faker->sentence,

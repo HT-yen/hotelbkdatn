@@ -16,9 +16,11 @@
               <a href="{{ URL::previous() }}">
                 <button type="button" class="btn btn-warning btn-custom btn-lg">{{ __('Back') }}</button>
               </a>
+              @if (Auth::user()->is_admin == App\Model\User::ROLE_ADMIN)
               <a href="{{ route('user.edit', $user->id) }}">
                 <button type="button" class="btn btn-primary btn-custom btn-lg ml-5per">{{ __('Edit') }}</button>
               </a>
+              @endif
             </div>
           </div>
           <div class="col-md-8 mt-20">

@@ -7,13 +7,36 @@ use App\Http\Requests\Frontend\AddReservationRequest;
 use App\Model\Guest;
 use App\Model\Reservation;
 use App\Model\Room;
+use App\Model\Payment as PaymentModel;
 use App\Model\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
+use PayPal\Api\Amount;
+use PayPal\Api\Details;
+use PayPal\Api\Item;
+use PayPal\Api\ItemList;
+use PayPal\Api\Payer;
+use PayPal\Api\Payment;
+use PayPal\Api\RedirectUrls;
+use PayPal\Api\Transaction;
+use PayPal\Rest\ApiContext;
+use PayPal\Auth\OAuthTokenCredential;
+use PayPal\Api\PaymentExecution;
+use Illuminate\Support\Facades\Input;
 
 class ReservationController extends Controller
 {
+    private $_api_payment_context;
+    public function __construct() {
+        $paypal_conf = \Config::get('paypal');
+        $this->_api_payment_context = new ApiContext(new OAuthTokenCredential(
+            $paypal_conf['client_id'],
+            $paypal_conf['secret'])
+        );
+        $this->_api_payment_context->setConfig($paypal_conf['settings']);
+    }
+
     /**
      * Display form for fill in booking.
      *
@@ -44,6 +67,8 @@ class ReservationController extends Controller
      */
     public function store(AddReservationRequest $request)
     {
+        \DB::beginTransaction();
+
         try {
             $reservation = new Reservation($request->all());
 
@@ -75,12 +100,127 @@ class ReservationController extends Controller
                 $reservation->target_id = $guest->id;
                 $reservation->save();
             }
+            // print_r($reservation->quantity * $request->duration * $reservation->room->price);
+            // print_r($reservation->room->name);
+
+            if (count($request->query()) != 0) {
+                if ($request->query()['payment'] == 'online') {
+
+                    //payment online
+                    $payer = new Payer();
+                    $payer->setPaymentMethod('paypal');
+
+                    $item_1 = new Item();
+                    $item_1->setName($reservation->room->name) /** item name **/
+                            ->setCurrency('USD')
+                            ->setQuantity($reservation->quantity * $request->duration)
+                            ->setPrice($reservation->room->price); /** unit price **/
+
+                    $item_list = new ItemList();
+                    $item_list->setItems(array($item_1));
+                    $amount = new Amount();
+                    $amount->setCurrency('USD')
+                            ->setTotal($reservation->quantity * $request->duration * $reservation->room->price);
+
+
+                    $transaction = new Transaction();
+                    $transaction->setAmount($amount)
+                                ->setItemList($item_list)
+                                ->setDescription('Payment transaction description');
+
+                    $redirect_urls = new RedirectUrls();
+                            $redirect_urls->setReturnUrl(\URL::route('payment.status')) /** Specify return URL **/
+                                ->setCancelUrl(\URL::route('payment.status'));
+                    $payment = new Payment();
+                    $payment->setIntent('Sale')
+                        ->setPayer($payer)
+                        ->setRedirectUrls($redirect_urls)
+                        ->setTransactions(array($transaction));
+                            /** dd($payment->create($this->_api_payment_context));exit; **/
+                    try {
+
+                        $payment->create($this->_api_payment_context);
+
+                    } catch (\PayPal\Exception\PPConnectionException $ex) {
+                        \DB::rollback();
+                        if (\Config::get('app.debug')) {
+                            flash(__('Connection timeout'))->error();
+                        } else {
+                            flash(__('Some error occur, sorry for inconvenient'))->error();
+                        }
+                        return redirect()->back()->withInput();
+                    }
+
+                    foreach ($payment->getLinks() as $link) {
+                        if ($link->getRel() == 'approval_url') {
+                            $redirect_url = $link->getHref();
+                            break;
+                        }
+                    }
+                    /** add payment ID to session **/
+                    \Session::put('paypal_payment_id', $payment->getId());
+                    if (isset($redirect_url)) {
+                    /** redirect to paypal **/
+                        // save into database
+                        $paymentModel = new PaymentModel();
+                        $paymentModel->reservation_id = $reservation->id;
+                        $paymentModel->transaction_id = $payment->getId();
+                        $paymentModel->payment_gross = $reservation->quantity * $request->duration * $reservation->room->price;
+                        $paymentModel->save();
+                        \DB::commit();
+                        \Session::put('paypal_room_id', $reservation->room_id);
+                        \Session::put('paypal_reservation_id', $reservation->id);
+                        return redirect()->away($redirect_url);
+                    }
+
+                    flash(__('Unknown error occurred'))->error();
+                    return redirect()->back()->withInput();
+                    
+                }
+            }
+            \DB::commit();
             return redirect()->back()->with('msg', __('Booking success! Thank you!'));
+            
         } catch (\Exception $e) {
+            dd($e->getData());
+            \DB::rollback();
             flash(__('Booking failure! Sorry'))->error();
             return redirect()->back()->withInput();
         }
     }
+
+
+    public function getPaymentStatus()
+    {
+        /** Get the payment ID before session clear **/
+        $payment_id = \Session::get('paypal_payment_id');
+        $room_id = \Session::get('paypal_room_id');
+        $reservation_id = \Session::get('paypal_reservation_id');
+        /** clear the session payment ID **/
+        \Session::forget('paypal_payment_id');
+        \Session::forget('paypal_room_id');
+        \Session::forget('paypal_reservation_id');
+
+        if (empty(Input::get('PayerID')) || empty(Input::get('token'))) {
+
+            flash(__('Payment failure! Sorry'))->error();
+            return redirect()->route('reservations.create', $room_id);
+        }
+        $payment = Payment::get($payment_id, $this->_api_payment_context);
+        $execution = new PaymentExecution();
+        $execution->setPayerId(Input::get('PayerID'));
+        /**Execute the payment **/
+        $result = $payment->execute($execution, $this->_api_payment_context);
+        if ($result->getState() == 'approved') {
+            return redirect()->route('reservations.create', $room_id)->with('msg', __('Payment and booking success! Thank you!'));
+        }
+        // payment fail => delete saved reservation and related payment from database
+        $reservation = Reservation::find($reservation_id)->delete();
+        
+        flash(__('Payment failure! Sorry'))->error();
+        return redirect()->route('reservations.create', $room_id);
+    }
+
 
     /**
      * Display a page update a booking room

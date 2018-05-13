@@ -75,31 +75,35 @@ class HotelController extends Controller
      */
     public function store(HotelCreateRequest $request)
     {
-        // create hotel.
-        $hotel = new Hotel($request->except(['services', 'images']));
-        $hotel->user_id = Auth::user()->id;
-        $result = $hotel->save();
-        
+        \DB::beginTransaction();
 
-        //make data hotel services
-        $hotelServices = array();
-        if (isset($request->services)) {
-            foreach ($request->services as $serviceId) {
-                array_push($hotelServices, new HotelService(['service_id' => $serviceId]));
+        try {
+            // create hotel.
+            $hotel = new Hotel($request->except(['services', 'images']));
+            $hotel->user_id = Auth::user()->id;
+            $result = $hotel->save();
+            
+
+            //make data hotel services
+            $hotelServices = array();
+            if (isset($request->services)) {
+                foreach ($request->services as $serviceId) {
+                    array_push($hotelServices, new HotelService(['service_id' => $serviceId]));
+                }
             }
-        }
-        //save hotel services
-        $hotel->hotelServices()->saveMany($hotelServices);
+            //save hotel services
+            $hotel->hotelServices()->saveMany($hotelServices);
 
-        Image::storeImages($request->images, 'hotel', $hotel->id, config('image.hotels.path_upload'));
-
-        if ($result) {
-            flash(__('Create success'))->success();
-            return redirect()->route('hotel.index');
-        } else {
+            Image::storeImages($request->images, 'hotel', $hotel->id, config('image.hotels.path_upload'));
+        } catch (\Exception $e) {
+            \DB::rollback();
             flash(__('Create failure'))->error();
             return redirect()->back()->withInput();
         }
+        \DB::commit();
+        flash(__('Create success'))->success();
+        return redirect()->route('hotel.index');
+
     }
 
     /**
@@ -111,32 +115,36 @@ class HotelController extends Controller
      */
     public function show($id)
     {
-        $columns = [
-            'id',
-            'name',
-            'address',
-            'star',
-            'introduce',
-            'place_id'
-        ];
+        try {
+            $columns = [
+                'id',
+                'name',
+                'address',
+                'star',
+                'introduce',
+                'place_id'
+            ];
 
-        $with['place'] = function ($query) {
-            $query->select('id', 'name');
-        };
-        $with['images'] = function ($query) {
-            $query->select();
-        };
-        $with['hotelServices'] = function ($query) {
-            $query->select('id', 'hotel_id', 'service_id');
-        };
-        $with['hotelServices.service'] = function ($query) {
-            $query->select('id', 'name');
-        };
+            $with['place'] = function ($query) {
+                $query->select('id', 'name');
+            };
+            $with['images'] = function ($query) {
+                $query->select();
+            };
+            $with['hotelServices'] = function ($query) {
+                $query->select('id', 'hotel_id', 'service_id');
+            };
+            $with['hotelServices.service'] = function ($query) {
+                $query->select('id', 'name');
+            };
 
-        $hotel = Hotel::select($columns)->with($with)->findOrFail($id);
-        $totalRooms = $hotel->rooms()->count();
+            $hotel = Hotel::select($columns)->with($with)->findOrFail($id);
+            $totalRooms = $hotel->rooms()->count();
 
-        return view('backend.hotels.show', compact('hotel', 'totalRooms'));
+            return view('backend.hotels.show', compact('hotel', 'totalRooms'));
+        } catch(\Exception $e) {
+            return "Internal server error";
+        }
     }
 
     /**
@@ -149,12 +157,16 @@ class HotelController extends Controller
     public function destroy($id)
     {
         $hotel = Hotel::findOrFail($id);
-        if ($hotel->delete()) {
-            flash(__('Deletion successful!'))->success();
-        } else {
+        try {
+            if ($hotel->delete()) {
+                flash(__('Deletion successful!'))->success();
+            }
+            return redirect()->route('hotel.index');
+
+        } catch(\Exception $e) {
             flash(__('Deletion failed!'))->error();
+            return redirect()->route('hotel.index');
         }
-        return redirect()->route('hotel.index');
     }
 
     /**
@@ -166,35 +178,41 @@ class HotelController extends Controller
      */
     public function edit($id)
     {
-        $columns = [
-            'id',
-            'name',
-            'address',
-            'star',
-            'introduce',
-            'place_id'
-        ];
+        try {
+            $columns = [
+                'id',
+                'name',
+                'address',
+                'star',
+                'introduce',
+                'place_id'
+            ];
 
-        $with['place'] = function ($query) {
-            $query->select('id', 'name');
-        };
-        $with['images'] = function ($query) {
-            $query->select();
-        };
-        $with['hotelServices'] = function ($query) {
-            $query->select('id', 'hotel_id', 'service_id');
-        };
+            $with['place'] = function ($query) {
+                $query->select('id', 'name');
+            };
+            $with['images'] = function ($query) {
+                $query->select();
+            };
+            $with['hotelServices'] = function ($query) {
+                $query->select('id', 'hotel_id', 'service_id');
+            };
 
-        $hotel = Hotel::select($columns)->with($with)->findOrFail($id);
+            $hotel = Hotel::select($columns)->with($with)->findOrFail($id);
+            
+            $columns = [
+                'id',
+                'name'
+            ];
+            $places = Place::select($columns)->get();
+            $services = Service::select($columns)->get();
+            return view('backend.hotels.edit', compact('hotel', 'places', 'services'));
+     
+        } catch(\Exception $e) {
+            return "Internal server error";
+        }
+
         
-        $columns = [
-            'id',
-            'name'
-        ];
-        $places = Place::select($columns)->get();
-        $services = Service::select($columns)->get();
- 
-        return view('backend.hotels.edit', compact('hotel', 'places', 'services'));
     }
 
     /**
@@ -207,10 +225,11 @@ class HotelController extends Controller
      */
     public function update(HotelUpdateRequest $request, $id)
     {
-        $hotel = Hotel::findOrFail($id);
 
-        DB::beginTransaction();
+        \DB::beginTransaction();
         try {
+            $hotel = Hotel::findOrFail($id);
+
             $hotel->update($request->except(['services', 'images', 'user_id']));
             //delete old hotel's services
             $hotel->services()->detach();
@@ -228,13 +247,14 @@ class HotelController extends Controller
             if (isset($request->images)) {
                 Image::storeImages($request->images, 'hotel', $hotel->id, config('image.hotels.path_upload'));
             }
-            DB::commit();
-            flash(__('Update successful!'))->success();
-            return redirect()->route('hotel.show', $id);
-        } catch (Exception $e) {
-            DB::rollback();
+
+        } catch (\Exception $e) {
+            \DB::rollback();
             flash(__('Update failure'))->error();
             return redirect()->back()->withInput();
         }
+        \DB::commit();
+        flash(__('Update successful!'))->success();
+        return redirect()->route('hotel.show', $id);
     }
 }

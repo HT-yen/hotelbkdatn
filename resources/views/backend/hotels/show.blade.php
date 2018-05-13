@@ -77,9 +77,11 @@
         <h3><a href="{{ route('room.index', $hotel->id) }}">{{ __('Total rooms: :total.', ['total' => $totalRooms]) }}</a></h3>
       </div>
       <div class="box-footer">
+        @if (Auth::user()->is_admin == App\Model\User::ROLE_HOTELIER)
         <a class="btn btn-primary btn-custom pull-right" href="{{ route('hotel.edit', $hotel->id) }}">
           {{ __('Edit hotel') }}
         </a>
+        @endif
         <a class="btn btn-default btn-custom pull-right" href="javascript:history.back()">
           {{ __('Back') }}
         </a>

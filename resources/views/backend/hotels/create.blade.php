@@ -4,6 +4,7 @@
   <div class="content-wrapper">
     <section class="content">
     <h1 class="title-page">{{__('Create hotel')}}</h1>
+       @include('flash::message')
       <div class="row margin-center">
         <div class="col-md-12">
           <div class="box box-primary">
