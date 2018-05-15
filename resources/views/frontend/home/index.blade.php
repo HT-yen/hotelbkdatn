@@ -308,8 +308,7 @@
     <div class="color-overlay fadeIn appear" data-start="600">
       <div class="container">
         <div class="content">
-          <h3 class="text-center"><i class="fa fa fa-star-o"></i>{{ __('Hotel Team .Inc') }}</h3>
-          <p class="text-center">{{ __('A product of the TYND Group') }}
+          <h3 class="text-center"><i class="fa fa fa-star-o"></i>{{ __('Hotel Booking .Inc') }}</h3>
       <br></p>
         </div>
       </div>

@@ -130,7 +130,7 @@
                   <p>{{ __('Name: :name', ['name' => $room->name]) }}</p>
                   <p>{{ __('Size: :size', ['size' => $room->size]) }}</p>
                   <p>{{ __('Max guest: :max_guest', ['max_guest' => $room->max_guest]) }}</p>
-                  <input type="numberic" name="price_per_night" id="js-price-room" value="{{ __('Price: :price', ['price' => $room->price]) }}" readonly>
+                  <p id="js-price-room">{{ __('Price: :price', ['price' => $room->price]) }}</p>
                   <small class="text-danger">{{ __('(Has :emptyRooms empty rooms)', ['emptyRooms' => $emptyRooms]) }}</small>
                 </div>   
               </div>
