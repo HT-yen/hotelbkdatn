@@ -62,7 +62,9 @@ class NewsController extends Controller
             flash(__('Create News Fail!'))->error();
             return redirect()->back()->withInput();
         }
-        Image::storeImages($request->images, 'news', $news->id, config('image.news.path_upload'));
+        if (count($request->images) > 0) {
+            Image::storeImages($request->images, 'news', $news->id, config('image.news.path_upload'));            
+        }
         return redirect()->route('news.index');
     }
 
