@@ -440,7 +440,7 @@
     "Do you want to update comment?": "Bạn có muốn cập nhật nhận xét?",
     "Yes, I known": "Tôi đã biết!",
     "Hotels management": "Quản lý khách sạn",
-    "Belong to TYND Group": " Thuộc về Tập đoàn TYND Group",
+    "Belong to Hotel Booking .Inc": " Thuộc về Tập đoàn Hotel Booking .Inc",
     "List Booking Rooms": "Danh sách đơn đặt phòng",
     "Detail": "Xem chi tiết",
     "User is logging! Can't delete this user!": "Quản trị viện đang đăng nhập, không thể xóa",
@@ -463,6 +463,7 @@
     "Payment and booking success! Thank you!": "Thanh toán và đặt phòng thành công! Cám ơn!",
     "Payment failure! Sorry": "Thanh toán thất bại! Xin lỗi",
     "Done paid online": "Đã thanh toán online",
-    "Unpaid online": "Chưa thanh toán online"
+    "Unpaid online": "Chưa thanh toán online",
+    "Update hotel": "Cập nhật khách sạn"
 
 }

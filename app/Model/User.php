@@ -144,7 +144,7 @@ class User extends Model implements Authenticatable
      */
     public function getRoleAttribute()
     {
-        return $this->is_admin == self::ROLE_ADMIN? __('Admin'):$this->is_admin == self::ROLE_HOTELIER? __('Hotelier'): __('User');
+        return $this->is_admin == self::ROLE_ADMIN? __('Admin'):($this->is_admin == self::ROLE_HOTELIER? __('Hotelier'): __('User'));
     }
 
     /**
