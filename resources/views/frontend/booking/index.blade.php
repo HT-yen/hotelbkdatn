@@ -148,6 +148,7 @@
               <button id="submit-payment-online" class="btn btn-warning pull-left" data-original-title="{{ __('Payment by paypal') }}" data-toggle="tooltip"  data-title="{{ __('Confirm payment!') }}"
                 data-confirm="{{ __('Are you sure you want to pay by paypal?') }}">{{ __('Payment paypal online') }} </button>
               <button id="submit" class="btn btn-primary pull-right">{{ __('Payment when come hotel') }} </button>
+              <div><strong class="text-center text-info col-sm-12" style="margin-top: 10px">{{ __('If the number of rooms or duration over 5, please payment online to sure be accepted') }}</strong></div>
               </div>
           </div>
         </div>
