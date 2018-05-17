@@ -167,8 +167,12 @@ class ReservationController extends Controller
                         $paymentModel->transaction_id = $payment->getId();
                         $paymentModel->payment_gross = $reservation->quantity * $request->duration * $reservation->room->price;
                         $paymentModel->save();
+                        $reservation->status = Reservation::STATUS_ACCEPTED;
+                        $reservation->save();
+                        $reservation->delete();
                         \DB::commit();
                         \Session::put('paypal_room_id', $reservation->room_id);
+                        \Session::put('paymentModel_id', $paymentModel->id);
                         \Session::put('paypal_reservation_id', $reservation->id);
                         return redirect()->away($redirect_url);
                     }
@@ -178,11 +182,16 @@ class ReservationController extends Controller
                     
                 }
             }
+            if ($reservation->quantity >= 5 || $request->duration >= 5) {
+                flash(__('Sorry! The quantity of rooms or the duration you want to book is pretty many, please to payment online'))->error();
+                return redirect()->back()->withInput();
+
+            }
             \DB::commit();
             return redirect()->back()->with('msg', __('Booking success! Thank you!'));
             
         } catch (\Exception $e) {
-            dd($e->getData());
+            // dd($e->getData());
             \DB::rollback();
             flash(__('Booking failure! Sorry'))->error();
             return redirect()->back()->withInput();
@@ -192,33 +201,45 @@ class ReservationController extends Controller
 
     public function getPaymentStatus()
     {
-        /** Get the payment ID before session clear **/
-        $payment_id = \Session::get('paypal_payment_id');
-        $room_id = \Session::get('paypal_room_id');
-        $reservation_id = \Session::get('paypal_reservation_id');
-        /** clear the session payment ID **/
-        \Session::forget('paypal_payment_id');
-        \Session::forget('paypal_room_id');
-        \Session::forget('paypal_reservation_id');
+        try {
 
-        if (empty(Input::get('PayerID')) || empty(Input::get('token'))) {
+            /** Get the payment ID before session clear **/
+            $payment_id = \Session::get('paypal_payment_id');
+            $room_id = \Session::get('paypal_room_id');
+            $reservation_id = \Session::get('paypal_reservation_id');
+            $paymentModel_id = \Session::get('paymentModel_id');
+            /** clear the session payment ID **/
+            \Session::forget('paypal_payment_id');
+            \Session::forget('paymentModel_id');
+            \Session::forget('paypal_room_id');
+            \Session::forget('paypal_reservation_id');
+
+            if (empty(Input::get('PayerID')) || empty(Input::get('token'))) {
+
+                flash(__('Payment failure! Sorry'))->error();
+                return redirect()->route('reservations.create', $room_id);
+            }
+            $payment = Payment::get($payment_id, $this->_api_payment_context);
+            $execution = new PaymentExecution();
+            $execution->setPayerId(Input::get('PayerID'));
+            /**Execute the payment **/
+            $result = $payment->execute($execution, $this->_api_payment_context);
+            if ($result->getState() == 'approved') {
+                Reservation::withTrashed()->find($reservation_id)->restore();
+                PaymentModel::withTrashed()->find($paymentModel_id)->restore();
+                return redirect()->route('reservations.create', $room_id)->with('msg', __('Payment and booking success! Thank you!'));
+            }
+            // payment fail => delete saved reservation and related payment from database
+            $reservation = Reservation::find($reservation_id)->delete();
+            
+            flash(__('Payment failure! Sorry'))->error();
+            return redirect()->route('reservations.create', $room_id);
+        } catch (Exception $ex) {
+            // dd($ex);
 
             flash(__('Payment failure! Sorry'))->error();
             return redirect()->route('reservations.create', $room_id);
         }
-        $payment = Payment::get($payment_id, $this->_api_payment_context);
-        $execution = new PaymentExecution();
-        $execution->setPayerId(Input::get('PayerID'));
-        /**Execute the payment **/
-        $result = $payment->execute($execution, $this->_api_payment_context);
-        if ($result->getState() == 'approved') {
-            return redirect()->route('reservations.create', $room_id)->with('msg', __('Payment and booking success! Thank you!'));
-        }
-        // payment fail => delete saved reservation and related payment from database
-        $reservation = Reservation::find($reservation_id)->delete();
-        
-        flash(__('Payment failure! Sorry'))->error();
-        return redirect()->route('reservations.create', $room_id);
     }
 
 
