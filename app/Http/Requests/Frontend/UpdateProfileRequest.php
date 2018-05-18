@@ -25,9 +25,9 @@ class UpdateProfileRequest extends FormRequest
     {
         return [
             'full_name' => 'required',
-            'phone' => 'required|numeric',
+            'phone' => 'required|numeric|digits_between:6,12',
             'email' => 'required|unique:users,email,' .$this->id. ',id',
-            'password' => 'nullable|min:3',
+            'password' => 'nullable|min:4',
             'image' => 'nullable|image|max:' . config('image.max_upload_size')
         ];
     }
