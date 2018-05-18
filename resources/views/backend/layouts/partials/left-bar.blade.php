@@ -4,7 +4,7 @@
     <!-- Sidebar user panel -->
     <div class="user-panel">
       <div class="pull-left image">
-      <img src="{{ asset('bower_components/AdminLTE/dist/img/user3-128x128.jpg') }}"
+      <img src="{{ isset(Auth::user()->images[0]) ? asset(Auth::user()->images[0]->path) : asset('images/default/profile.png') }}"
        class="img-circle" alt="User Image">
       </div>
       <div class="pull-left info">
