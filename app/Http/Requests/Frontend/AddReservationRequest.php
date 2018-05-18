@@ -24,9 +24,9 @@ class AddReservationRequest extends FormRequest
     public function rules()
     {
         return [
-            'full_name' => 'required',
+            'full_name' => 'required|max:255',
             'quantity' => 'required|numeric',
-            'phone' => 'required',
+            'phone' => 'required|numeric|digits_between:6,12',
             'email' => 'required|email',
             'duration' => 'required',
             'checkin' => 'required',

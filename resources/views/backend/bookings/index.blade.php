@@ -76,7 +76,7 @@
                         <div class="text-center">
                           <a href="{{ route('reservation.show', $reservation->id) }}"
                             data-original-title="{{ __('Detail') }}" data-toggle="tooltip"
-                            class="btn fa fa-search-plus pull-left news-btn btn-custom-option">
+                            class="btn fa fa-search-plus pull-left news-btn btn-custom-option" style="margin-right: 0px">
                           </a>
                           <a href="{{ route('reservation.edit', $reservation->id) }}"
                             class="btn fa fa-pencil-square-o news-btn center-block btn-custom-option" 

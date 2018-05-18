@@ -25,11 +25,11 @@ class CreateUserRequest extends FormRequest
     {
         return [
             'username' => 'required|max:50|unique:users',
-            'password' => 'required|min:3|confirmed',
+            'password' => 'required|min:4|confirmed',
             'password_confirmation' => 'required',
             'full_name' => 'required',
             'email' => 'required|email|unique:users',
-            'phone' => 'required|numeric',
+            'phone' => 'required|numeric|numeric|digits_between:6,12',
         ];
     }
 }
