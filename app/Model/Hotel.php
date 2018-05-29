@@ -295,10 +295,14 @@ class Hotel extends Model
      */
     public function scopePlaceCondition($query, $request)
     {
+
         if ($request->has('hotelSourceArea')) {
             // Hotel belong to searched place
             $place = Place::where("name", "$request->hotelSourceArea")->first();
-            return $query->where("hotels.place_id", $place->id);
+            $query = $query->where("hotels.place_id", $place->id);
+            if ($request->has('streetHotelSearch')) {
+                $query = $query->where('address', 'LIKE', '%$request->streetHotelSearch%');
+            }
         }
         return $query;
     }

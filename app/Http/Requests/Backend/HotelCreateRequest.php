@@ -26,7 +26,8 @@ class HotelCreateRequest extends FormRequest
         return [
             'name' => 'required|min:8|unique:hotels',
             'user_id' => 'nullable',
-            'address' => 'required',
+            'actual_address' => 'required',
+            'street' => 'required',
             'place_id' => 'required',
             'star' => 'required',
             'introduce' => 'required',

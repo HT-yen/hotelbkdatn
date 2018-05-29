@@ -25,20 +25,12 @@
                     <span class="text-danger">{{ $errors->first('name') }}</span>
                   @endif
                 </div>
-                {{-- input address --}}
-                <div class="form-group" {{ $errors->has('address') ? ' has-error' : '' }}>
-                  <label>{{ __('Address') }}</label>
-                  <input type="text" class="form-control" name="address" value="{{ $hotel->address }}">
-                  @if($errors->first('address'))
-                    <span class="text-danger">{{ $errors->first('address') }}</span>
-                  @endif
-                </div>
                 {{-- select place adn star --}}
                 <div class="form-inline">
                   {{-- place select --}}
                   <div class="form-group" {{ $errors->has('place') ? ' has-error' : '' }}>
                     <p><strong>{{ __('Place') }}</strong></p>
-                    <select class="form-control" name="place_id">
+                    <select class="form-control place-id-choose" name="place_id">
                       <option value="">{{ __('Choose Place') }}</option>
                       @foreach($places as $place)
                         <option value="{{ $place->id }}" {{ $hotel->place_id == $place->id ? 'selected' : '' }}>{{ $place->name }}</option>
@@ -60,6 +52,24 @@
                     @if($errors->first('star'))
                       <span class="text-danger">{{ $errors->first('star') }}</span>
                     @endif
+                  </div>
+                </div>
+                <div>
+                  {{-- input actual_address --}}
+                  <div class="form-group col-md-4" {{ $errors->has('actual_address') ? ' has-error' : '' }}>
+                    <input type="text" class="form-control" name="actual_address" placeholder="{{ __('Actual address') }} {{'(Ex: '. __('Number 50').')'}}" value="{{ count(explode('---', $hotel->address)) > 0? explode('---', $hotel->address)[0]: '' }}" >
+                    @if($errors->first('actual_address'))
+                      <span class="text-danger">{{ $errors->first('actual_address') }}</span>
+                    @endif
+                  </div>
+                  {{-- input street --}}
+                  <div class="form-group col-md-8" {{ $errors->has('street') ? ' has-error' : '' }}>
+                    <input type="text" class="form-control  street-suggest" name="street" placeholder="{{ __('Street') }} {{ '(Ex:'. __('Xuan Thuy street, Cau Giay District').')'}}" value="{{ count(explode('---', $hotel->address)) > 1? explode('---', $hotel->address)[1]: '' }}"" data-url="{{ route('home.hintStreets') }}">
+                    @if($errors->first('street'))
+                      <span class="text-danger">{{ $errors->first('street') }}</span>
+                    @endif
+                    <div class="widgetStreetResult" hidden>
+                    </div>
                   </div>
                 </div>
                 {{-- introduce --}}

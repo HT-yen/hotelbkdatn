@@ -191,7 +191,7 @@ class ReservationController extends Controller
             return redirect()->back()->with('msg', __('Booking success! Thank you!'));
             
         } catch (\Exception $e) {
-            // dd($e->getData());
+            dd($e);
             \DB::rollback();
             flash(__('Booking failure! Sorry'))->error();
             return redirect()->back()->withInput();
@@ -229,8 +229,6 @@ class ReservationController extends Controller
                 PaymentModel::withTrashed()->find($paymentModel_id)->restore();
                 return redirect()->route('reservations.create', $room_id)->with('msg', __('Payment and booking success! Thank you!'));
             }
-            // payment fail => delete saved reservation and related payment from database
-            $reservation = Reservation::find($reservation_id)->delete();
             
             flash(__('Payment failure! Sorry'))->error();
             return redirect()->route('reservations.create', $room_id);

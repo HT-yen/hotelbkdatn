@@ -104,6 +104,64 @@ $(document).ready(function(){
     });
 
     /**
+     * Show hinted street when key up field
+     */
+    $('.street-suggest').on('input focus', function(event){
+        var placeId = $('.place-id-choose option:selected').val();
+        var key = $(this).val();
+        var url = $(this).data('url');
+        $.ajax({
+                url: url,
+                type: 'GET',
+                data: {key :key, placeId :placeId},
+                error: function(xhr, status, error) {
+                  alert(xhr.responseText);
+                },
+                success: function( msg ) {
+                    $('.widgetStreetResult').html(msg);
+                    $('.widgetStreetResult').show();
+                }
+                
+            });
+
+    });
+    /**
+     * Hide hinted place when blur place_slug field
+     */
+    $('.street-suggest').blur(function(event) {
+        $('.widgetStreetResult').fadeOut();
+    });
+
+    /**
+     * Show hinted street when key up field
+     */
+    $('#streetHotelSearch').on('input focus', function(event){
+        var placeId = $(this).data('idplace');
+        var key = $(this).val();
+        var url = $(this).data('url');
+        $.ajax({
+                url: url,
+                type: 'GET',
+                data: {key :key, placeId :placeId},
+                error: function(xhr, status, error) {
+                  alert(xhr.responseText);
+                },
+                success: function( msg ) {
+                    $('.widgetStreetResult').html(msg);
+                    $('.widgetStreetResult').show();
+                }
+            });
+
+    });
+
+      /**
+     * Hide hinted place when blur place_slug field
+     */
+    $('#streetHotelSearch').blur(function(event) {
+        $('.widgetStreetResult').fadeOut();
+    });
+
+    /**
      * Show hinted place when focus place_slug field
      */
     $('#hotelSourceArea').focus(function(event) {
@@ -113,7 +171,7 @@ $(document).ready(function(){
     /**
      * Show hinted place when key up place_slug field
      */
-    $('#hotelSourceArea').keyup(function(event) {
+    $('#hotelSourceArea').on('input', function(event){
         var url = $(this).data('url');
         var key = $(this).val();
         $.ajax({
@@ -131,13 +189,11 @@ $(document).ready(function(){
             });
     });
 
+
     /**
      * Hide hinted place when blur place_slug field
      */
     $('#hotelSourceArea').blur(function(event) {
-        if ($('.widgetAcResult div li.place-selected')[0]) {
-            $(this).val($('.widgetAcResult div li.place-selected')[0].innerHTML);
-        }
         $('.widgetAcResult').fadeOut();
     });
 
@@ -146,5 +202,12 @@ $(document).ready(function(){
      */
     $(".widgetAcResult").on('click', 'div li.place-selected', function(event) {
         $('#hotelSourceArea').val($(this)[0].innerHTML);
+        $('#streetHotelSearch').attr('data-idplace', $(this).eq(0).attr('data-url'));
+    });
+
+    $(".widgetStreetResult").on('click', 'div li.place-selected', function(event) {
+        $('.street-suggest').val($(this)[0].innerHTML);
+        $('#streetHotelSearch').val($(this)[0].innerHTML);
+        $('.widgetStreetResult').fadeOut();
     });
 });

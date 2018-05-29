@@ -82,6 +82,16 @@ class Place extends Model
         return $this->hasMany(Hotel::class);
     }
 
+    /**
+     * Get street_places for place
+     *
+     * @return array
+     */
+    public function streetPlaces()
+    {
+        return $this->hasMany(StreetPlace::class, 'place_id');
+    }
+
      /**
      * The "booting" method of the model.
      *

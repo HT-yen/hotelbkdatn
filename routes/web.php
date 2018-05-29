@@ -41,6 +41,9 @@ Route::group(['middleware' => 'frontend.language', 'namespace'=>'Frontend'],
 
 });
 
+Route::get('/hint/streets', 'HomeController@hintStreets')->name('home.hintStreets');
+
+
 Route::group(['namespace'=>'Admin', 'prefix'=>'admin', 'middleware'=>['adminLogin', 'admin.language']], function() {
     Route::group(['middleware'=>['adminstratorLogin']], function() {
         Route::resource('/user', 'UserController', ['except' => ['show']]);
@@ -69,6 +72,7 @@ Route::group(['namespace'=>'Admin', 'prefix'=>'admin', 'middleware'=>['adminLogi
         Route::resource('/room', 'RoomController');
     });
     Route::resource('/image', 'ImageController', ['only' => ['destroy']]);
+
 });
 
 Auth::routes();

@@ -375,6 +375,14 @@ label.star:hover {
     width: 20%;
     z-index: 999;
 }
+
+.widgetStreetResult {
+    position: absolute;
+    padding-top: 5px;
+    color: black;
+    width: 80%;
+    z-index: 999;
+}
 .place-selected {
     width: 100%;
     height: 44px;

@@ -6,7 +6,7 @@
         <form class="reservation-horizontal clearfix container-search" name="reservationform" method="GET"  action="{{ route('hotels.index') }}">
           <div id="message"></div><!-- Error message display -->
             <div class="row">        
-              <div class="coltest add-one-col">
+              <div class="coltest small-col">
                 <div class="form-group">
                   <label for="room">{{ __('Place') }}</label>
                   <div class="popover-icon" data-toggle="tooltip" title="{{ __('Default all places') }}" data-trigger="hover" data-placement="right"> <i class="fa fa-info-circle fa-lg"> </i> </div>
@@ -17,7 +17,18 @@
                   </div>
                 </div>
               </div>
-              <div class="coltest add-one-col">
+              <div class="coltest big-col">
+                <div class="form-group">
+                  <label for="room">{{ __('Street') }}</label>
+                  <div class="popover-icon" data-toggle="tooltip" title="{{ __('Default all street of place') }}" data-trigger="hover" data-placement="right"> <i class="fa fa-info-circle fa-lg"> </i> </div>
+                  <input type="text" name="streetHotelSearch" id="streetHotelSearch" class="form-control{{ $errors->has('streetHotelSearch') ? ' has-error' : '' }}" value="{{ old('streetHotelSearch', request('streetHotelSearch')) }}" placeholder="{{ __('Street to go') }}" data-url="{{ route('home.hintStreets') }}">
+                  <small class="text-danger">{{ $errors->first('streetHotelSearch') }}</small>
+                  <div class="widgetStreetResult" style="width:40%" hidden>
+                    @include('backend.layouts.partials.widgetStreetResult')
+                  </div>
+                </div>
+              </div>
+              <div class="coltest add-one-col" style="width: 14%">
                 <div class="form-group">
                   <label for="checkin">{{ __('Check-in') }}</label>
                   <div class="popover-icon" data-toggle="tooltip" title="{{ __('Check-In is from 14:00') }}" data-trigger="hover" data-placement="right"> <i class="fa fa-info-circle fa-lg"> </i> </div>
@@ -72,7 +83,7 @@
                 </select>
                 </div>
               </div>
-              <div class="btnSubmit">
+              <div class="btnSubmit" style="width: 12%">
                 <button type="submit" class="btn btn-primary btn-block" id="submit">{{ __('Search') }}</button>
               </div>
             </div>

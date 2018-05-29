@@ -118,8 +118,13 @@ return [
         'phone' => 'Số điện thoại',
         'password' => 'Mật khẩu',
         'content' => 'Nội dung',
-        'hotelSourceArea' => 'Địa điểm',
-        'checkin' => 'Ngày nhận phòng'
+        'actual_address' => 'Địa chỉ cụ thể',
+        'name' => 'Tê',
+        'street' => 'Tên đường',
+        'star' => 'Số sao',
+        'place_id' => 'Địa điểm',
+        'introduce' => 'Giới thiệu',
+        'images' => 'Hình ảnh'
     ],
 
 ];

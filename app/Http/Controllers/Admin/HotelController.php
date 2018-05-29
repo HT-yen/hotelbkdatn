@@ -15,6 +15,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Model\User;
+use App\Model\StreetPlace;
 
 
 class HotelController extends Controller
@@ -76,8 +77,13 @@ class HotelController extends Controller
     public function store(HotelCreateRequest $request)
     {
         \DB::beginTransaction();
-
+        array_add($request, 'address', $request->actual_address.'---'.$request->street);
         try {
+            if (count(StreetPlace::where('place_id', $request->place_id)->where('street_name', $request->street)->get()) == 0) {
+                $streetPlace = new StreetPlace(['place_id'=>$request->place_id, 'street_name'=>$request->street]);
+                $streetPlace->save();
+
+            }
             // create hotel.
             $hotel = new Hotel($request->except(['services', 'images']));
             $hotel->user_id = Auth::user()->id;
@@ -97,6 +103,7 @@ class HotelController extends Controller
             Image::storeImages($request->images, 'hotel', $hotel->id, config('image.hotels.path_upload'));
         } catch (\Exception $e) {
             \DB::rollback();
+            dd($e->getMessage());
             flash(__('Create failure'))->error();
             return redirect()->back()->withInput();
         }
@@ -227,7 +234,13 @@ class HotelController extends Controller
     {
 
         \DB::beginTransaction();
+        array_add($request, 'address', $request->actual_address.'---'.$request->street);
         try {
+            if (count(StreetPlace::where('place_id', $request->place_id)->where('street_name', $request->street)->get()) == 0) {
+                $streetPlace = new StreetPlace(['place_id'=>$request->place_id, 'street_name'=>$request->street]);
+                $streetPlace->save();
+
+            }
             $hotel = Hotel::findOrFail($id);
 
             $hotel->update($request->except(['services', 'images', 'user_id']));

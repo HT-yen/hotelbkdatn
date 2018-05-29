@@ -24,7 +24,8 @@ class HotelUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'address' => 'required',
+            'actual_address' => 'required',
+            'street' => 'required',
             'place_id' => 'required',
             'star' => 'required',
             'introduce' => 'required',

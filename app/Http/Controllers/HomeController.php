@@ -7,6 +7,7 @@ use App\Model\Hotel;
 use App\Model\Image;
 use App\Model\Place;
 use Illuminate\Support\Facades\DB;
+use App\Model\StreetPlace;
 
 class HomeController extends Controller
 {
@@ -92,5 +93,25 @@ class HomeController extends Controller
                 ->groupBy('hotels.id', 'hotels.name')
                 ->orderBy('total', 'DESC')
                 ->limit(Hotel::SHOW_LIMIT)->get();
+    }
+
+    /**
+     * Display hinted streets
+     *
+     * @param Request $request request to get hinted street
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function hintStreets(Request $request)
+    {
+        $query = StreetPlace::select(['street_name', 'place_id']);
+        if ($request->key != "") {
+            $query = $query->where('street_name', "LIKE", "%$request->key%");
+        }
+        if (isset($request->placeId)) {
+            $query = $query->where('place_id', $request->placeId);
+        }
+        $hintedStreets = $query->limit(10)->get();
+        return view('backend.layouts.partials.widgetStreetResult', compact('hintedStreets'));;
     }
 }

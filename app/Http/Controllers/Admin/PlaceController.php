@@ -6,10 +6,31 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\UpdatePlaceRequest;
 use App\Http\Requests\Backend\CreatePlaceRequest;
-use App\Model\Place;
+use App\Model\StreetPlace;
 
 class PlaceController extends Controller
 {
+
+    /**
+     * Display hinted streets
+     *
+     * @param Request $request request to get hinted street
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function hintStreets(Request $request)
+    {
+        $query = StreetPlace::select(['street_name', 'place_id']);
+        if ($request->key != "") {
+            $query = $query->where('street_name', "LIKE", "%$request->key%");
+        }
+        if (isset($request->placeId)) {
+            $query = $query->where('place_id', $request->placeId);
+        }
+        $hintedStreets = $query->limit(10)->get();
+        return view('backend.layouts.partials.widgetStreetResult', compact('hintedStreets'));;
+    }
+
     /**
      * Display a listing of the resource.
      *
