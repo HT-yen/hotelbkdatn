@@ -112,6 +112,7 @@ EOD;
      */
     public function index(SearchHotelRequest $request)
     {
+
         if ($request->all() != []) {
             Cookie::queue(User::COOKIE_KEY, $request->all(), User::COOKIE_LIFETIME);
         }
@@ -136,6 +137,8 @@ EOD;
             ->paginate(Hotel::ITEM_LIMIT);
         // Top 7 place booked most within the last month
         $hintedPlaces = Place::topPlaces();
+
+
         return view('frontend.hotels.index', compact('hotels', 'hintedPlaces'));
     }
 }

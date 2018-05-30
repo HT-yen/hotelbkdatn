@@ -301,7 +301,7 @@ class Hotel extends Model
             $place = Place::where("name", "$request->hotelSourceArea")->first();
             $query = $query->where("hotels.place_id", $place->id);
             if ($request->has('streetHotelSearch')) {
-                $query = $query->where('address', 'LIKE', '%$request->streetHotelSearch%');
+                $query = $query->where('address', 'LIKE', "%$request->streetHotelSearch%");
             }
         }
         return $query;
