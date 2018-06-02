@@ -60,12 +60,12 @@
           <div class="glyphicon glyphicon-star inline"></div>
         @endfor
         {{-- show hotel infomation --}}
-        <h4><a class="bg-faded" href="{{ route('place.show' , $hotel->place->id) }}">{{ __('Place: ') . $hotel->place->name }}</a></h4>
-        <h5>{{ __('Address: ') . $hotel->address }}</h5>
+        <h4><a class="bg-faded" href="{{ route('place.show' , $hotel->place->id) }}">{{ __('Place').': ' . $hotel->place->name }}</a></h4>
+        <h5>{{ __('Address').': ' . $hotel->address }}</h5>
         <div class="cls-introduce-hotel">
-          {{ __('Introduce: ' . strip_tags($hotel->introduce)) }}
+          {{ __('Introduce').': ' . strip_tags($hotel->introduce) }}
         </div>
-        <h3>{{ __('Services: :totalServices.', ['totalServices' => $hotel->hotelServices->count() ]) }}</h3>
+        <h3>{{ __('Services').__(': :totalServices.', ['totalServices' => $hotel->hotelServices->count() ]) }}</h3>
         <ul>
           @foreach ($hotel->hotelServices as $hotelService)
             <div class="col-md-3 pull-left">
@@ -74,7 +74,7 @@
           @endforeach
         </ul>
         <div class="clearfix"></div>
-        <h3><a href="{{ route('room.index', $hotel->id) }}">{{ __('Total rooms: :total.', ['total' => $totalRooms]) }}</a></h3>
+        <h3><a href="{{ route('room.index', $hotel->id) }}">{{ __('Total rooms').__(': :total.', ['total' => $totalRooms]) }}</a></h3>
       </div>
       <div class="box-footer">
         @if (Auth::user()->is_admin == App\Model\User::ROLE_HOTELIER)

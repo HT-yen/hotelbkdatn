@@ -7,7 +7,7 @@
     <!-- Main content -->
     <section class="content">
       <h1 class="text-center text-success">
-        {{ __('HOTEL NAME: :name', ['name' => $hotel->name]) }}
+        {{ __('HOTEL NAME').__(': :name', ['name' => $hotel->name]) }}
       </h1>
       <h1 class="text-center text-success">
         @include('flash::message')

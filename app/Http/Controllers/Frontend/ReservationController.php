@@ -49,9 +49,10 @@ class ReservationController extends Controller
         $bookingInfomation = Cookie::get(User::COOKIE_KEY, User::DEFAULT_VALUE);
         $emptyRooms = $room->total;
 
-        if (isset($bookingInfomation)) {
+        if (isset($bookingInfomation)&& !array_key_exists('checkin', $bookingInfomation)) {
             $checkinDate = Carbon::createFromFormat(config('hotel.datetime_format'), $bookingInfomation['checkin'] . config('hotel.checkin_time'))
                     ->toDateTimeString();
+            
             $emptyRooms = totalEmptyRoom($room->id, $checkinDate);
         }
 
@@ -182,8 +183,8 @@ class ReservationController extends Controller
                     
                 }
             }
-            if ($reservation->quantity >= 5 || $request->duration >= 5) {
-                flash(__('Sorry! The quantity of rooms or the duration you want to book is pretty many, please to payment online'))->error();
+            if ($reservation->quantity >= 10 || $request->duration >= 7) {
+                flash(__('Sorry! The quantity of rooms more than 10 or the duration over 1 week, please to payment online'))->error();
                 return redirect()->back()->withInput();
 
             }

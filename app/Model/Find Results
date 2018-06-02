@@ -1,0 +1,10 @@
+Searching 9228 files for "User is logging! Can't delete this user!"
+
+/Users/mba0196/web/review/resources/lang/vi.json:
+  443      "List Booking Rooms": "Danh sách đơn đặt phòng",
+  444      "Detail": "Xem chi tiết",
+  445:     "User is logging! Can't delete this user!": "Quản trị viên đang đăng nhập, không thể xóa",
+  446      "Can't change role admin when you are logging in": "Không thể thay đổi quyền admin khi bạn đang đăng nhập",
+  447      "Is paid?": "Đã thanh toán?",
+
+1 match in 1 file

@@ -337,7 +337,7 @@ class Hotel extends Model
                     return $query->orderby('star', 'DESC');
                 case Hotel::RATING_DESC:
                     // Arrange hotel by average rating of hotel order by decrease
-                    return $query->join(DB::raw("(SELECT hotel_id, avg(total_rating) AS avg_rating FROM rating_comments group by hotel_id) AS summary_ratings"), 'summary_ratings.hotel_id', '=', 'hotels.id')
+                    return $query->leftJoin(DB::raw("(SELECT hotel_id, avg(total_rating) AS avg_rating FROM rating_comments group by hotel_id) AS summary_ratings"), 'summary_ratings.hotel_id', '=', 'hotels.id')
                                 ->orderby('avg_rating', 'DESC');
             }
         }

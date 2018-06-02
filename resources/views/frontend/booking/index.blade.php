@@ -62,7 +62,7 @@
                 @if(Auth::user())
                   <input type="email" name="email" class="form-control" value="{{ Auth::user()->email }}" readonly>
                 @else
-                  <input type="email" name="email" class="form-control" placeholder="{{ __('Ex: nnnam@gmail.com') }}"> 
+                  <input type="email" name="email" class="form-control" placeholder="{{ __('Ex: htyen@gmail.com') }}"> 
                 @endif
                 <span class="text-danger">{{ ($errors->first('email')) ? $errors->first('email') : '' }}</span>
               </div>
@@ -148,7 +148,7 @@
               <button id="submit-payment-online" class="btn btn-warning pull-left" data-original-title="{{ __('Payment by paypal') }}" data-toggle="tooltip"  data-title="{{ __('Confirm payment!') }}"
                 data-confirm="{{ __('Are you sure you want to pay by paypal?') }}">{{ __('Payment paypal online') }} </button>
               <button id="submit" class="btn btn-primary pull-right">{{ __('Payment when come hotel') }} </button>
-              <div><strong class="text-center text-info col-sm-12" style="margin-top: 10px">{{ __('If the number of rooms or duration over 5, please payment online to sure be accepted') }}</strong></div>
+              <div><strong class="text-center text-info col-sm-12" style="margin-top: 10px">{{ __('If the number of rooms more than 10 or duration over 1 week, please payment online to sure be accepted') }}</strong></div>
               </div>
           </div>
         </div>

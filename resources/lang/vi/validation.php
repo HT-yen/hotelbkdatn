@@ -128,7 +128,9 @@ return [
         'total' => 'Tổng số',
         'max_guest' => 'Số khách tối đa',
         'price' => 'Giá cả',
-        'descript' => 'Miêu tả'
+        'descript' => 'Miêu tả',
+        'checkin' => 'Ngày nhận phòng',
+        'hotelSourceArea' => 'Địa điểm'
     ],
 
 ];
