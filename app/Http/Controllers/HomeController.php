@@ -108,7 +108,10 @@ class HomeController extends Controller
         if ($request->key != "") {
             $query = $query->where('street_name', "LIKE", "%$request->key%");
         }
-        if (isset($request->placeId)) {
+        if (isset($request->placeName)) {
+            $place = Place::select(['id'])->where('name', 'LIKE', "$request->placeName%")->first();
+            $query = $query->where('place_id', $place->id);
+        } else if (isset($request->placeId)) {
             $query = $query->where('place_id', $request->placeId);
         }
         $hintedStreets = $query->limit(10)->get();

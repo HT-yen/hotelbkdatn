@@ -24,13 +24,12 @@ class HotelCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:8|unique:hotels',
+            'name' => 'required|min:1|unique:hotels',
             'user_id' => 'nullable',
             'actual_address' => 'required',
             'street' => 'required',
             'place_id' => 'required',
             'star' => 'required',
-            'introduce' => 'required',
             'images' => 'required|array',
             'images.*' => 'image|max:' . config('image.max_upload_size')
         ];

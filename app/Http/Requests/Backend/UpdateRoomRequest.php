@@ -25,7 +25,6 @@ class UpdateRoomRequest extends FormRequest
     {
         return [
             'name' => 'required|max:50',
-            'descript' => 'required',
             'price' => 'required|numeric',
             'max_guest' => 'required|integer',
             'total' => 'required|integer',

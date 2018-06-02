@@ -119,12 +119,16 @@ return [
         'password' => 'Mật khẩu',
         'content' => 'Nội dung',
         'actual_address' => 'Địa chỉ cụ thể',
-        'name' => 'Tê',
+        'name' => 'Tên',
         'street' => 'Tên đường',
         'star' => 'Số sao',
         'place_id' => 'Địa điểm',
         'introduce' => 'Giới thiệu',
-        'images' => 'Hình ảnh'
+        'images' => 'Hình ảnh',
+        'total' => 'Tổng số',
+        'max_guest' => 'Số khách tối đa',
+        'price' => 'Giá cả',
+        'descript' => 'Miêu tả'
     ],
 
 ];

@@ -1,3 +1,4 @@
+
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();
     
@@ -115,7 +116,7 @@ $(document).ready(function(){
                 type: 'GET',
                 data: {key :key, placeId :placeId},
                 error: function(xhr, status, error) {
-                  alert(xhr.responseText);
+                  console.log(xhr.responseText);
                 },
                 success: function( msg ) {
                     $('.widgetStreetResult').html(msg);
@@ -136,15 +137,15 @@ $(document).ready(function(){
      * Show hinted street when key up field
      */
     $('#streetHotelSearch').on('input focus', function(event){
-        var placeId = $(this).data('idplace');
+        var placeName = $('#hotelSourceArea').val();
         var key = $(this).val();
         var url = $(this).data('url');
         $.ajax({
                 url: url,
                 type: 'GET',
-                data: {key :key, placeId :placeId},
+                data: {key :key, placeName :placeName},
                 error: function(xhr, status, error) {
-                  alert(xhr.responseText);
+                  console.log(xhr.responseText);
                 },
                 success: function( msg ) {
                     $('.widgetStreetResult').html(msg);
@@ -202,7 +203,6 @@ $(document).ready(function(){
      */
     $(".widgetAcResult").on('click', 'div li.place-selected', function(event) {
         $('#hotelSourceArea').val($(this)[0].innerHTML);
-        $('#streetHotelSearch').attr('data-idplace', $(this).eq(0).attr('data-url'));
     });
 
     $(".widgetStreetResult").on('click', 'div li.place-selected', function(event) {

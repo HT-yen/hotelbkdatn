@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\UpdatePlaceRequest;
 use App\Http\Requests\Backend\CreatePlaceRequest;
 use App\Model\StreetPlace;
+use App\Model\Place;
 
 class PlaceController extends Controller
 {
